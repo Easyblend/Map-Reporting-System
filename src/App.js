@@ -8,10 +8,10 @@ import { useState } from "react";
 import Login from "./Login";
 
 function App() {
-  const [userEmail, setUserEmail] = useState("");
+  const [userName, setUserName] = useState("");
 
   return (
-    <userState.Provider value={{ userEmail, setUserEmail }}>
+    <userState.Provider value={{ userName, setUserName }}>
       <Routes>
         <Route path="/" element={<SignUp />} />
         <Route path="/login" element={<Login />} />

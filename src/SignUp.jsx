@@ -5,6 +5,7 @@ import { authentication } from "./FirebaseConfig";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  updateProfile,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -12,7 +13,7 @@ import { useContext } from "react";
 import { userState } from "./UserStateContext";
 
 function SignUp() {
-  const { setUserEmail } = useContext(userState);
+  const { setUserName } = useContext(userState);
 
   const navigate = useNavigate();
 
@@ -30,13 +31,14 @@ function SignUp() {
       .then((userCredential) => {
         // Sign
         const user = userCredential.user;
-        setUserEmail(user.email);
+        updateProfile(user, { displayName: name.current.value });
         navigate("/home");
+        console.log(user);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode);
+        alert(errorMessage);
       });
   };
 

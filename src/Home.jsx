@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-// import { useContext } from "react";  ****This Context wasnt Needed onauthstateChange checks and updates the user logged in
-// import { userState } from "./UserStateContext";
+import { useContext } from "react";
+import { userState } from "./UserStateContext";
 import { authentication } from "./FirebaseConfig";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ const Home = () => {
   const navigate = useNavigate();
   onAuthStateChanged(authentication, (currentUser) => {
     setUserEmail(currentUser?.email);
+    setUserName(currentUser?.displayName);
   });
 
   const logOut = async () => {
@@ -25,9 +26,10 @@ const Home = () => {
 
   //   const { userEmail, setUserEmail } = useContext(userState);
   const [userEmail, setUserEmail] = useState("");
+  const [userName, setUserName] = useState("");
   return (
     <div className="text-center">
-      <h2>Current user Logged in: {userEmail ? userEmail : "guest"}</h2>
+      <h2>Current user Logged in: {userName ? userName : "guest"}</h2>
       <Button onClick={logOut}>Log me Out</Button>
     </div>
   );
