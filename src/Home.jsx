@@ -15,8 +15,12 @@ const Home = () => {
   });
 
   const logOut = async () => {
-    await signOut(authentication);
-    navigate("/");
+    try {
+      await signOut(authentication);
+      navigate("/");
+    } catch (error) {
+      alert(error);
+    }
   };
 
   //   const { userEmail, setUserEmail } = useContext(userState);

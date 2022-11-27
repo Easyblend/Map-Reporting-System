@@ -7,7 +7,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { userState } from "./UserStateContext";
 
@@ -61,9 +61,15 @@ function SignUp() {
               ref={password}
             />
           </Form.Group>
-
           <Button type="submit">Sign Me Up</Button>
         </Form>
+
+        <div className="text-center mt-3">
+          Already Have an account?{" "}
+          <Link to="/login" className="text-decoration-none text-dark fw-bold">
+            Log In
+          </Link>
+        </div>
       </div>
 
       <img
