@@ -2,19 +2,12 @@ import React, { useRef } from "react";
 import { Form } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { authentication } from "./FirebaseConfig";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  updateProfile,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
-import { userState } from "./UserStateContext";
+import { ToastContainer, toast } from "react-toastify";
 
 function SignUp() {
-  const { setUserName } = useContext(userState);
-
   const navigate = useNavigate();
 
   const name = useRef(null);
@@ -33,12 +26,19 @@ function SignUp() {
         const user = userCredential.user;
         updateProfile(user, { displayName: name.current.value });
         navigate("/home");
-        console.log(user);
+        toast.success(`Welcome ${name.current.value}`);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        alert(errorMessage);
+        console.log(errorMessage);
+        toast.error(
+          errorCode === "auth/invalid-email"
+            ? "Invalid Email"
+            : errorCode === "auth/email-already-in-use"
+            ? "Email Already Exist"
+            : "Somethings's not right"
+        );
       });
   };
 
@@ -51,19 +51,42 @@ function SignUp() {
           onSubmit={SubmitForm}
         >
           <Form.Group>
-            <Form.Control type="text" placeholder="Full name.." ref={name} />
+            <Form.Control
+              type="text"
+              placeholder="Full name.."
+              ref={name}
+              required
+            />
           </Form.Group>
           <Form.Group>
-            <Form.Control type="email" placeholder="Email.." ref={email} />
+            <Form.Control
+              type="email"
+              placeholder="Email.."
+              ref={email}
+              required
+            />
           </Form.Group>
           <Form.Group>
             <Form.Control
               type="password"
               placeholder="Password.."
               ref={password}
+              required
             />
           </Form.Group>
           <Button type="submit">Sign Me Up</Button>
+          <ToastContainer
+            position="bottom-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
         </Form>
 
         <div className="text-center mt-3">

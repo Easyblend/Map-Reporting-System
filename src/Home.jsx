@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useContext } from "react";
-import { userState } from "./UserStateContext";
+
 import { authentication } from "./FirebaseConfig";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
