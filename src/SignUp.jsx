@@ -43,7 +43,7 @@ function SignUp() {
   };
 
   return (
-    <div className="row mx-auto bg-secondary vh-100 text-light">
+    <div className="row mx-auto bg-light vh-100 text-dark">
       <div className="col-sm-6 my-auto col-12 mx-auto">
         <h2 className="text-center">Sign-Up</h2>
         <Form

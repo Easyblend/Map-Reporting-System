@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { authentication } from "./FirebaseConfig";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -8,15 +8,24 @@ import { Button } from "react-bootstrap";
 
 const Home = () => {
   //Checking the current user logged in my databse
+  const func = async () => {
+    await onAuthStateChanged(authentication, (currentUser) => {
+      setUserEmail(currentUser?.email);
+      setUserName(currentUser?.displayName);
+      console.log(authentication.currentUser);
+    });
+  };
+
+  useEffect(() => {
+    func();
+  }, []);
+
   const navigate = useNavigate();
-  onAuthStateChanged(authentication, (currentUser) => {
-    setUserEmail(currentUser?.email);
-    setUserName(currentUser?.displayName);
-  });
 
   const logOut = async () => {
     try {
       await signOut(authentication);
+
       navigate("/");
     } catch (error) {
       alert(error);
