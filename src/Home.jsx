@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import { authentication } from "./FirebaseConfig";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-
+import { Navbar } from "react-bootstrap";
+import Nav from "react-bootstrap/Nav";
 import { Button } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
 
 const Home = () => {
   //Checking the current user logged in my databse
@@ -36,10 +38,30 @@ const Home = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
   return (
-    <div className="text-center">
-      <h2>Current user Logged in: {userName ? userName : "guest"}</h2>
-      <Button onClick={logOut}>Log me Out</Button>
-    </div>
+    <>
+      <Navbar
+        collapseOnSelect
+        expand="md"
+        bg="light"
+        className="mx-auto w-100 text-center"
+      >
+        <Container className="container-fluid">
+          <Navbar.Brand href="">{userName ? userName : "guest"}</Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            {/* <Nav className="ms-auto">
+            <Nav.Link href="#features">Features</Nav.Link>
+            <Nav.Link href="#pricing">Pricing</Nav.Link>
+          </Nav> */}
+            <Nav className="ms-auto">
+              <Nav.Link>
+                <Button onClick={logOut}>Log me Out</Button>
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+    </>
   );
 };
 
