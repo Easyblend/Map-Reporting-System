@@ -90,8 +90,11 @@ function SignUp() {
         </Form>
 
         <div className="text-center mt-3">
-          Already Have an account?{" "}
-          <Link to="/login" className="text-decoration-none text-dark fw-bold">
+          Already Have an account?
+          <Link
+            to="/login"
+            className="text-decoration-none text-danger ms-2 fw-bold"
+          >
             Log In
           </Link>
         </div>

@@ -46,7 +46,7 @@ const Home = () => {
         className="mx-auto w-100 text-center"
       >
         <Container className="container-fluid">
-          <Navbar.Brand href="">{userName ? userName : "guest"}</Navbar.Brand>
+          <Navbar.Brand href="">{userName ? userName : "GUEST"}</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             {/* <Nav className="ms-auto">
