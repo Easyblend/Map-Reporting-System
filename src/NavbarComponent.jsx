@@ -34,11 +34,10 @@ const NavbarComponent = () => {
     }
   };
 
-  //   const { userEmail, setUserEmail } = useContext(userState);
-  const [setUserEmail] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
   return (
-    <>
+    <div className="fixed-top">
       <Navbar
         collapseOnSelect
         expand="md"
@@ -46,7 +45,7 @@ const NavbarComponent = () => {
         className="mx-auto w-100 text-center"
       >
         <Container className="container-fluid">
-          <Navbar.Brand href="">{userName ? userName : "GUEST"}</Navbar.Brand>
+          <Navbar.Brand>{userName ? userName : "GUEST"}</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             {/* <Nav className="ms-auto">
@@ -56,13 +55,13 @@ const NavbarComponent = () => {
 
             <Nav className="ms-auto ">
               <Nav.Link
-                className="my-auto text-dark"
+                className="my-auto text-dark me-2"
                 onClick={() => navigate("/explore")}
               >
                 Explorer
               </Nav.Link>
               <Nav.Link
-                className="my-auto text-dark me-5"
+                className="my-auto text-dark me-2"
                 onClick={() => navigate("/profile")}
               >
                 Profile
@@ -74,7 +73,7 @@ const NavbarComponent = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </>
+    </div>
   );
 };
 
