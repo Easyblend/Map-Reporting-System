@@ -28,7 +28,7 @@ const NavbarComponent = () => {
     try {
       await signOut(authentication);
 
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       alert(error);
     }
