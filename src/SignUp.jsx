@@ -31,7 +31,7 @@ function SignUp() {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorMessage);
+
         toast.error(
           errorCode === "auth/invalid-email"
             ? "Invalid Email"

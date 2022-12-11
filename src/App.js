@@ -13,8 +13,6 @@ import NavbarComponent from "./NavbarComponent";
 function App() {
   const [userName, setUserName] = useState("");
 
-  const currentUrl = window.location.href;
-
   const [checkUrl, setCheckUrl] = useState(false);
 
   const url = useLocation();
@@ -25,7 +23,6 @@ function App() {
     else setCheckUrl(false);
   });
 
-  console.log(url.pathname);
   return (
     <userState.Provider value={{ userName, setUserName }}>
       {checkUrl && <NavbarComponent />}

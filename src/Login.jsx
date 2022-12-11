@@ -45,7 +45,6 @@ const Login = () => {
       await sendPasswordResetEmail(authentication, email.current.value);
       toast.success("Password Reset Successfull. Please check your email");
     } catch (error) {
-      console.log(error.code);
       toast.error(
         error.code === "auth/missing-email"
           ? "Please Enter your Email to reset your password"

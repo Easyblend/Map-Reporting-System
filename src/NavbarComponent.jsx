@@ -8,13 +8,12 @@ import Nav from "react-bootstrap/Nav";
 import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 
-const NavbarComponent = () => {
+const NavbarComponent = ({ fixed }) => {
   //Checking the current user logged in my databse
   const func = async () => {
     await onAuthStateChanged(authentication, (currentUser) => {
       setUserEmail(currentUser?.email);
       setUserName(currentUser?.displayName);
-      console.log(authentication.currentUser);
     });
   };
 
@@ -36,13 +35,15 @@ const NavbarComponent = () => {
 
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
+
   return (
-    <div className="fixed-top">
+    <div>
       <Navbar
         collapseOnSelect
         expand="md"
+        sticky="top"
         bg="light"
-        className="mx-auto w-100 text-center"
+        className="mx-auto w-100 text-center "
       >
         <Container className="container-fluid">
           <Navbar.Brand>{userName ? userName : "GUEST"}</Navbar.Brand>
@@ -54,6 +55,12 @@ const NavbarComponent = () => {
           </Nav> */}
 
             <Nav className="ms-auto ">
+              <Nav.Link
+                className="my-auto text-dark me-2"
+                onClick={() => navigate("/home")}
+              >
+                Home
+              </Nav.Link>
               <Nav.Link
                 className="my-auto text-dark me-2"
                 onClick={() => navigate("/explore")}
