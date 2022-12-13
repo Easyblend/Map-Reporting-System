@@ -8,6 +8,7 @@ import {
   Popup,
   Marker,
   useMapEvent,
+  useMapEvents,
   ZoomControl,
   ScaleControl,
   LayersControl,
@@ -17,32 +18,32 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { control, icon, Icon, marker } from "leaflet";
 import { authentication } from "./FirebaseConfig";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { onAuthStateChanged } from "firebase/auth";
 import { toast } from "react-toastify";
 import { click } from "@testing-library/user-event/dist/click";
 
 const Home = () => {
-  const policePose = new Icon({
+  const policePost = new Icon({
     iconUrl: `https://cdn-icons-png.flaticon.com/512/3485/3485494.png`,
-    iconSize: [30, 30],
+    iconSize: [30, 35],
   });
 
   const [name, setName] = useState();
 
-  const [view, setView] = useState(null);
+  const [center, setcenter] = useState(null);
   const [markers, setMarkers] = useState([]);
 
   const clicked = [];
 
   const getUser = async () => {
-    await onAuthStateChanged(authentication, (currentUser) => {
+    onAuthStateChanged(authentication, (currentUser) => {
       setName(currentUser?.displayName);
     });
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        setView([position.coords.latitude, position.coords.longitude]);
+        setcenter([position.coords.latitude, position.coords.longitude]);
       });
     } else {
       toast.error("Location not accessible");
@@ -55,22 +56,33 @@ const Home = () => {
 
   function Home() {
     const map = useMapEvent("click", (location) => {
-      setView(location.latlng);
+      map.flyTo(location.latlng, 14);
     });
   }
 
-  function NewIdea() {
+  function AddMarker() {
     const map = useMapEvent("click", (location) => {
       setMarkers((markers) => [...markers, location.latlng]);
+      map.flyTo(location.latlng);
     });
 
     return (
       <>
         {markers.map((eachy) => (
-          <Marker position={[eachy.lat, eachy.lng]}>
+          <Marker position={[eachy.lat, eachy.lng]} key={eachy.lat}>
             <Popup>
-              <p>Longitude: {eachy.lng}</p>
-              <p>Latitude: {eachy.lat}</p>
+              <Form>
+                <Form.Group className="mb-3" controlId="add post">
+                  <Form.Control type="text" placeholder="post name" />
+                  <Form.Text className="text-muted">
+                    Name for the Post youre Adding
+                  </Form.Text>
+                </Form.Group>
+
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+              </Form>
             </Popup>
           </Marker>
         ))}
@@ -79,20 +91,22 @@ const Home = () => {
   }
   return (
     <>
-      {view ? (
+      {center ? (
         <MapContainer
-          center={view}
+          center={center}
           zoom={13}
           zoomControl={false}
           scrollWheelZoom={false}
-          className="leaflet-container"
+          className="map-container"
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           <ZoomControl position="bottomright" />
-          <Marker position={view}>
-            <Popup></Popup>
+          <Marker position={center} icon={policePost}>
+            <Popup>
+              <h5 className="text-primary">Youre Here</h5>
+            </Popup>
           </Marker>
-          <NewIdea />
+          <AddMarker />
           {clicked ? <Home /> : ""}
         </MapContainer>
       ) : (

@@ -41,7 +41,7 @@ const NavbarComponent = ({ fixed }) => {
       <Navbar
         collapseOnSelect
         expand="md"
-        sticky="top"
+        fixed="top"
         bg="light"
         className="mx-auto w-100 text-center "
       >
