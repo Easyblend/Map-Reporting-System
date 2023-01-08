@@ -3,15 +3,15 @@ import React, { useEffect, useState } from "react";
 import { authentication } from "./FirebaseConfig";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { Navbar } from "react-bootstrap";
-import Nav from "react-bootstrap/Nav";
-import { Button } from "react-bootstrap";
-import Container from "react-bootstrap/Container";
+import { useMapEvent } from "react-leaflet";
+import { useContext } from "react";
+import { userState } from "./UserStateContext";
+import { toast } from "react-toastify";
 
-const NavbarComponent = ({ fixed }) => {
+const NavbarComponent = ({ getUser }) => {
   //Checking the current user logged in my databse
-  const func = async () => {
-    await onAuthStateChanged(authentication, (currentUser) => {
+  const func = () => {
+    onAuthStateChanged(authentication, (currentUser) => {
       setUserEmail(currentUser?.email);
       setUserName(currentUser?.displayName);
     });
@@ -37,49 +37,35 @@ const NavbarComponent = ({ fixed }) => {
   const [userName, setUserName] = useState("");
 
   return (
-    <div>
-      <Navbar
-        collapseOnSelect
-        expand="md"
-        fixed="top"
-        bg="light"
-        className="mx-auto w-100 text-center "
+    <div className="ms-auto">
+      <button
+        className="btn btn-secondary"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasRight"
+        aria-controls="offcanvasRight"
       >
-        <Container className="container-fluid">
-          <Navbar.Brand>{userName ? userName : "GUEST"}</Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            {/* <Nav className="ms-auto">
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
-          </Nav> */}
+        <i className="fa-solid fa-bars"></i>
+      </button>
 
-            <Nav className="ms-auto ">
-              <Nav.Link
-                className="my-auto text-dark me-2"
-                onClick={() => navigate("/home")}
-              >
-                Home
-              </Nav.Link>
-              <Nav.Link
-                className="my-auto text-dark me-2"
-                onClick={() => navigate("/explore")}
-              >
-                Explorer
-              </Nav.Link>
-              <Nav.Link
-                className="my-auto text-dark me-2"
-                onClick={() => navigate("/profile")}
-              >
-                Profile
-              </Nav.Link>
-              <Nav.Link>
-                <Button onClick={logOut}>Log me Out</Button>
-              </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+      <div
+        className="offcanvas offcanvas-end"
+        id="offcanvasRight"
+        aria-labelledby="offcanvasRightLabel"
+      >
+        <div className="offcanvas-header">
+          <h5 className="offcanvas-title" id="offcanvasRightLabel">
+            {userName}
+          </h5>
+          <button
+            type="button"
+            className="btn-close ms-5"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div className="offcanvas-body"></div>
+      </div>
     </div>
   );
 };

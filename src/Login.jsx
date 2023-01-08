@@ -9,7 +9,7 @@ import {
 import { authentication } from "./FirebaseConfig";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const email = useRef(null);
@@ -104,7 +104,7 @@ const Login = () => {
 
       <img
         src="https://images.unsplash.com/photo-1604077198996-4eb67c32f6a7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-        alt="Banner Image"
+        alt="Banner"
         className="col-6 banner d-none d-sm-block px-0 vh-100"
       />
     </div>

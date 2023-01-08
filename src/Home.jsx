@@ -1,52 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+import { authentication } from "./FirebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
+//Leaflet Imports
+import { MapContainer, TileLayer, Popup, Marker } from "react-leaflet";
+
+import { toast } from "react-toastify";
+
+import Loading from "./Components/Loading";
+
+import AddMarker from "./Components/AddMarker";
 import NavbarComponent from "./NavbarComponent";
 
-import {
-  MapContainer,
-  TileLayer,
-  useMap,
-  Popup,
-  Marker,
-  useMapEvent,
-  useMapEvents,
-  ZoomControl,
-  ScaleControl,
-  LayersControl,
-  AttributionControl,
-} from "react-leaflet";
-import { useEffect } from "react";
-import { useState } from "react";
-import { control, icon, Icon, marker } from "leaflet";
-import { authentication } from "./FirebaseConfig";
-import { Button, Form } from "react-bootstrap";
-import { onAuthStateChanged } from "firebase/auth";
-import { toast } from "react-toastify";
-import { click } from "@testing-library/user-event/dist/click";
+import { Form, Button } from "react-bootstrap";
 
 const Home = () => {
-  const policePost = new Icon({
-    iconUrl: `https://cdn-icons-png.flaticon.com/512/3485/3485494.png`,
-    iconSize: [30, 35],
-  });
+  const [center, setCenter] = useState();
+  const [addmarker, setAddmarker] = useState(false);
 
-  const [name, setName] = useState();
+  const [name, setName] = useState("");
+  const [incidentLocation, setIncidentLocation] = useState();
 
-  const [center, setcenter] = useState(null);
-  const [markers, setMarkers] = useState([]);
+  const [cityName, setCityName] = useState("searching...");
 
-  const clicked = [];
+  const [markers, setMarkers] = useState();
+  const fetchCityName = async (lat, lon) => {
+    // const response = await fetch(
+    //   `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=f46a8be772d9e8a8f927576bcf650eb5`
+    // );
+    // const data = await response.json();
+    // setCityName(data[0].name);
+  };
 
-  const getUser = async () => {
+  //User Location is fetched and set as the maps center
+  const getUser = () => {
     onAuthStateChanged(authentication, (currentUser) => {
-      setName(currentUser?.displayName);
+      setName(currentUser.displayName);
     });
-
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        setcenter([position.coords.latitude, position.coords.longitude]);
+        setCenter([position.coords.latitude, position.coords.longitude]);
       });
     } else {
-      toast.error("Location not accessible");
+      toast.error("Allow Location To View Map");
     }
   };
 
@@ -54,65 +50,106 @@ const Home = () => {
     getUser();
   }, []);
 
-  function Home() {
-    const map = useMapEvent("click", (location) => {
-      map.flyTo(location.latlng, 14);
-    });
-  }
-
-  function AddMarker() {
-    const map = useMapEvent("click", (location) => {
-      setMarkers((markers) => [...markers, location.latlng]);
-      map.flyTo(location.latlng);
-    });
-
-    return (
-      <>
-        {markers.map((eachy) => (
-          <Marker position={[eachy.lat, eachy.lng]} key={eachy.lat}>
-            <Popup>
-              <Form>
-                <Form.Group className="mb-3" controlId="add post">
-                  <Form.Control type="text" placeholder="post name" />
-                  <Form.Text className="text-muted">
-                    Name for the Post youre Adding
-                  </Form.Text>
-                </Form.Group>
-
-                <Button variant="primary" type="submit">
-                  Submit
-                </Button>
-              </Form>
-            </Popup>
-          </Marker>
-        ))}
-      </>
-    );
-  }
   return (
-    <>
+    <div>
       {center ? (
-        <MapContainer
-          center={center}
-          zoom={13}
-          zoomControl={false}
-          scrollWheelZoom={false}
-          className="map-container"
-        >
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          <ZoomControl position="bottomright" />
-          <Marker position={center} icon={policePost}>
-            <Popup>
-              <h5 className="text-primary">Youre Here</h5>
-            </Popup>
-          </Marker>
-          <AddMarker />
-          {clicked ? <Home /> : ""}
-        </MapContainer>
+        <>
+          <div className="sidebar p-4 d-flex flex-column gap-3">
+            <NavbarComponent />
+
+            {addmarker ? (
+              <>
+                <Form className="h-100 bg-dark p-3 rounded-4">
+                  <p className="text-light fw-bolder text-center">
+                    {" "}
+                    {cityName.toUpperCase()}
+                  </p>
+
+                  <div className="d-flex gap-2 text-light">
+                    <p>
+                      Lat :{" "}
+                      <span className="text-dark bg-light px-2 py-1 fw-bold rounded-2">
+                        {incidentLocation.lat.toFixed(3)}
+                      </span>
+                    </p>
+                    <p>
+                      Lon :{" "}
+                      <span className="text-dark bg-light px-2 py-1 fw-bold rounded-2">
+                        {incidentLocation.lng.toFixed(3)}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="form-container">
+                    <Form.Group className="mb-3" controlId="name">
+                      <Form.Text className="text-muted">
+                        Reporter's Name
+                      </Form.Text>
+                      <Form.Control
+                        type="text"
+                        placeholder={name}
+                        value={name}
+                        onChange={(e) => {
+                          setName(e.target.value);
+                        }}
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="incidence">
+                      <Form.Text className="text-muted">
+                        Ongoing Incidence
+                      </Form.Text>
+                      <Form.Control
+                        type="text"
+                        placeholder="eg: fire Outbreak"
+                      />
+                    </Form.Group>
+                  </div>
+
+                  <div className="d-flex gap-3 mx-auto">
+                    <Button variant="primary" type="submit">
+                      Report
+                    </Button>
+                    <Button
+                      variant="primary"
+                      className="text-dark bg-light"
+                      onClick={() => {
+                        setAddmarker(false);
+                        setMarkers(null);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </Form>
+              </>
+            ) : (
+              ""
+            )}
+          </div>
+          <MapContainer center={center} zoom={13} className="map-container">
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+            <Marker position={center}>
+              <Popup>
+                <h5 className="text-primary">Youre Here</h5>
+              </Popup>
+            </Marker>
+
+            {/* Add Marker Component is created here */}
+            <AddMarker
+              setAddmarker={setAddmarker}
+              setIncidentLocation={setIncidentLocation}
+              setCityName={setCityName}
+              fetchCityName={fetchCityName}
+              setMarkers={setMarkers}
+              markers={markers}
+              cityName={cityName}
+            />
+          </MapContainer>
+        </>
       ) : (
-        ""
+        <Loading />
       )}
-    </>
+    </div>
   );
 };
 
