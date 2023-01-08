@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import { authentication } from "./FirebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
+
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "./FirebaseConfig";
+
 //Leaflet Imports
 import { MapContainer, TileLayer, Popup, Marker } from "react-leaflet";
 
@@ -19,9 +23,18 @@ const Home = () => {
   const [addmarker, setAddmarker] = useState(false);
 
   const [name, setName] = useState("");
+  const [incident, setIncident] = useState("");
   const [incidentLocation, setIncidentLocation] = useState();
+  const [phone, setPhone] = useState("");
 
   const [cityName, setCityName] = useState("searching...");
+
+  const date = new Date().toLocaleDateString("en-us", {
+    weekday: "long",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 
   const [markers, setMarkers] = useState();
   const fetchCityName = async (lat, lon) => {
@@ -50,6 +63,25 @@ const Home = () => {
     getUser();
   }, []);
 
+  const sentData = async (e) => {
+    e.preventDefault();
+    console.log("I'm Clicked");
+    try {
+      console.log("trying");
+      await addDoc(collection(db, "Reported Cases"), {
+        Date: date,
+        Reporter: name,
+        Incident: incident,
+        latitude: incidentLocation.lat,
+        longitude: incidentLocation.lng,
+        phone: phone,
+      });
+      toast.success("Report sent to successfully");
+    } catch (e) {
+      alert("Error adding document: " + e);
+    }
+  };
+
   return (
     <div>
       {center ? (
@@ -59,7 +91,10 @@ const Home = () => {
 
             {addmarker ? (
               <>
-                <Form className="h-100 bg-dark p-3 rounded-4">
+                <Form
+                  className="h-100 bg-dark p-3 rounded-4"
+                  onSubmit={sentData}
+                >
                   <p className="text-light fw-bolder text-center">
                     {" "}
                     {cityName.toUpperCase()}
@@ -100,6 +135,25 @@ const Home = () => {
                       <Form.Control
                         type="text"
                         placeholder="eg: fire Outbreak"
+                        value={incident}
+                        onChange={(e) => {
+                          setIncident(e.target.value);
+                        }}
+                        required
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="phone">
+                      <Form.Text className="text-muted">
+                        Reporter's contact
+                      </Form.Text>
+                      <Form.Control
+                        type="tel"
+                        placeholder="eg: 0550104094"
+                        value={phone}
+                        onChange={(e) => {
+                          setPhone(e.target.value);
+                        }}
+                        required
                       />
                     </Form.Group>
                   </div>
