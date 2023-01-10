@@ -4,6 +4,13 @@
   box-sizing: border-box;
 }
 
+//Font loader
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@400;500&family=Poppins&display=swap");
+
+body {
+  font-family: poppins;
+}
+
 .map-container {
   width: 100vw;
   height: 100vh;
