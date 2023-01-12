@@ -81,7 +81,7 @@ const NavbarComponent = ({ getUser }) => {
             <div className="my-3 py-2">
               <i className="fa-solid fa-circle-info"></i>
               <Link
-                to="/home"
+                to="/profile"
                 className="text-center text-decoration-none text-secondary mx-4"
               >
                 About
@@ -90,7 +90,7 @@ const NavbarComponent = ({ getUser }) => {
             <div className="my-3 py-2">
               <i className="fa-solid fa-user"></i>
               <Link
-                to="/home"
+                to="/profile"
                 className="text-center text-decoration-none text-secondary mx-4"
               >
                 Profile
@@ -111,12 +111,12 @@ const NavbarComponent = ({ getUser }) => {
             <p className="fs-5">Actions</p>
             <div className="my-1 ">
               <i className="fa-solid fa-person-circle-exclamation"></i>
-              <Link
-                to="/home"
-                className="text-center text-decoration-none text-secondary mx-4"
+              <button
+                onClick={() => toast.info("Only Admins can access Reports")}
+                className="text-center text-decoration-none text-secondary mx-4 border-0 bg-transparent"
               >
                 Reports
-              </Link>
+              </button>
             </div>
           </div>
         </div>

@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+## Crime Reporting System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Crime Reporting System is a React web app that allows civilians to easily report crimes happening in their community. The app is designed to be user-friendly, with a simple and intuitive interface that makes it easy for people to submit crime reports quickly and easily.
 
-## Available Scripts
+The app allows users to submit a crime report by entering a description of the crime, the location where it occurred, and any other relevant information. Users can also upload photos or videos of the crime if they have them. Once a report is submitted, it is sent to the appropriate authorities for review and investigation.
 
-In the project directory, you can run:
+The app also includes a map feature that shows the location of reported crimes in the community, allowing users to stay informed about criminal activity in their area.
 
-### `npm start`
+#### Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Easy-to-use interface for submitting crime reports
+2. Ability to upload photos or videos of the crime
+3. Map feature displaying reported crimes in the community
+4. Reports sent directly to the appropriate authorities for review and investigation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# Getting Started
 
-### `npm test`
+To get started with Crime Reporter, you will need to have Node.js and npm installed on your machine.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Clone the repository
+Copy code
+git clone https://github.com/[username]/crime-reporter.git
+Install the dependencies
+Copy code
+npm install
+Start the development server
+Copy code
+npm start
+Open http://localhost:3000 to view the app in the browser.
+Contribution
+Fork the repository
+Create your branch (git checkout -b feature/myfeature)
+Commit your changes (git commit -am 'Add some feature')
+Push to the branch (git push origin feature/myfeature)
+Create a new Pull Request
+s.
 
-### `npm run build`
+##### Note
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+You'll need to provide your own firebase APi credentials to be able store data in your own firebase.
+Visit https://firebase.com to create one
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Acknowledgments
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+React - JavaScript library for building user interfaces
+LeafLet - Open source mapping platform
+React-Bootrap - React components for faster and easier web development.
+Crime Reporter is a useful and powerful tool for keeping communities safe by making it easy for civilians to report criminal activity. We hope you find it useful and we welcome any feedback or contributions to improve the app.

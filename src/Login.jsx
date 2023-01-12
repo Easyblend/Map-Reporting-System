@@ -25,7 +25,7 @@ const Login = () => {
         password.current.value
       );
       navigate("/home");
-      toast.success("Login Successful");
+      toast.success("Welcome Citizen");
     } catch (error) {
       const errorCode = error.code;
       toast.error(

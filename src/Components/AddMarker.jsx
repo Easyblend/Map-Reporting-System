@@ -20,7 +20,7 @@ const AddMarker = ({
     setMarkers(location.latlng);
     setAddmarker(true);
     setIncidentLocation(location.latlng);
-    map.flyTo(location.latlng, 12);
+    map.flyTo(location.latlng, 17);
     fetchCityName(location.latlng.lat, location.latlng.lng);
   });
 
