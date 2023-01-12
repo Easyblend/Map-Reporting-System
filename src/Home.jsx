@@ -4,6 +4,7 @@ import { authentication } from "./FirebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 
 import { collection, addDoc } from "firebase/firestore";
+
 import { db } from "./FirebaseConfig";
 
 //Leaflet Imports
@@ -28,6 +29,8 @@ const Home = () => {
   const [phone, setPhone] = useState("");
 
   const [cityName, setCityName] = useState("searching...");
+  const [state, setSate] = useState("searching...");
+  const [description, setDescription] = useState("");
 
   const date = new Date().toLocaleDateString("en-us", {
     weekday: "long",
@@ -36,13 +39,19 @@ const Home = () => {
     day: "numeric",
   });
 
+  //getting Report time
+  const currentTime = new Date();
+  const time = currentTime.toLocaleTimeString("en-US");
+
   const [markers, setMarkers] = useState();
   const fetchCityName = async (lat, lon) => {
-    // const response = await fetch(
-    //   `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=f46a8be772d9e8a8f927576bcf650eb5`
-    // );
-    // const data = await response.json();
-    // setCityName(data[0].name);
+    const response = await fetch(
+      `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=f46a8be772d9e8a8f927576bcf650eb5`
+    );
+    const data = await response.json();
+    console.log(data);
+    setCityName(data[0].name);
+    setSate(data[0].state);
   };
 
   //User Location is fetched and set as the maps center
@@ -65,23 +74,29 @@ const Home = () => {
 
   const sentData = async (e) => {
     e.preventDefault();
-    console.log("I'm Clicked");
-    try {
-      console.log("trying");
-      await addDoc(collection(db, "Reported Cases"), {
-        Date: date,
-        Reporter: name,
-        Incident: incident,
-        latitude: incidentLocation.lat,
-        longitude: incidentLocation.lng,
+    await toast.promise(
+      addDoc(collection(db, "Reported Cases"), {
+        date: date,
+        time: time,
+        reporter: name,
+        reporters_location: center,
+        incident: incident,
+        incidentDescription: description,
+        location: cityName,
+        state: state,
+        incidentLocation: {
+          latitude: incidentLocation.lat.toFixed(2),
+          longitude: incidentLocation.lng.toFixed(2),
+        },
         phone: phone,
-      });
-      toast.success("Report sent to successfully");
-    } catch (e) {
-      alert("Error adding document: " + e);
-    }
+      }),
+      {
+        pending: "Submitting Rpeort",
+        success: "Report successfully submitted",
+        error: "An issue occured, Try again!",
+      }
+    );
   };
-
   return (
     <div>
       {center ? (
@@ -95,10 +110,11 @@ const Home = () => {
                   className="h-100 bg-dark p-3 rounded-4"
                   onSubmit={sentData}
                 >
-                  <p className="text-light fw-bolder text-center">
+                  <p className="text-light fw-bolder text-center gy-0 my-0 py-0">
                     {" "}
                     {cityName.toUpperCase()}
                   </p>
+                  <p className="text-light mb-4 text-center">{state}</p>
 
                   <div className="d-flex gap-2 text-light">
                     <p>
@@ -142,6 +158,20 @@ const Home = () => {
                         required
                       />
                     </Form.Group>
+                    <div className="form-group text-secondary ">
+                      <label htmlFor="exampleFormControlTextarea1">
+                        Incidence description
+                      </label>
+                      <textarea
+                        required
+                        className="form-control"
+                        id="exampleFormControlTextarea1"
+                        rows="4"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="detailed description on the incidence you're reporting on"
+                      />
+                    </div>
                     <Form.Group className="mb-3" controlId="phone">
                       <Form.Text className="text-muted">
                         Reporter's contact

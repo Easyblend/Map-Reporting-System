@@ -41,34 +41,35 @@ const Login = () => {
   };
 
   const passwordReset = async () => {
-    try {
-      await sendPasswordResetEmail(authentication, email.current.value);
-      toast.success("Password Reset Successfull. Please check your email");
-    } catch (error) {
-      toast.error(
-        error.code === "auth/missing-email"
-          ? "Please Enter your Email to reset your password"
-          : error.code === "auth/user-not-found"
-          ? "There is no account with this email"
-          : "Something went wrong"
-      );
-    }
+    await toast.promise(
+      sendPasswordResetEmail(authentication, email.current.value),
+      {
+        pending: "Sending a reset Link",
+        success: "Reset link sent to email",
+        error: "Something's not right",
+      }
+    );
   };
 
   return (
     <div className="row mx-auto bg-light vh-100 text-dark">
-      <div className="col-sm-6 my-auto col-12 mx-auto">
-        <h2 className="text-center">Log In</h2>
+      <div className="col-sm-5 my-auto col-12 mx-auto">
         <Form
-          className="w-75 mx-auto mt-5 d-flex flex-column gap-5"
+          className="w-75 mx-auto mt-5 d-flex flex-column gap-4"
           onSubmit={SubmitForm}
         >
+          <div>
+            <h2 className="text-center py-4">Welcome Back Citizen!</h2>
+            <h4 className="text-center text-decoration-underline">Log In</h4>
+          </div>
+
           <Form.Group>
             <Form.Control
               type="text"
               placeholder="Email.."
               ref={email}
               required
+              className="py-3"
             />
           </Form.Group>
           <Form.Group>
@@ -77,9 +78,18 @@ const Login = () => {
               placeholder="Password.."
               ref={password}
               required
+              className="py-3"
             />
+            <p className="mt-3">
+              An Emergency Report?{" "}
+              <Link to="/home" className="fw-bold">
+                Click here
+              </Link>
+            </p>
           </Form.Group>
-          <Button type="submit">Log In</Button>
+          <Button type="submit" className="mt-3 py-3">
+            Log In
+          </Button>
         </Form>
         <div className="text-center mt-3">
           New Here?
@@ -102,11 +112,35 @@ const Login = () => {
         </div>
       </div>
 
-      <img
-        src="https://images.unsplash.com/photo-1604077198996-4eb67c32f6a7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-        alt="Banner"
-        className="col-6 banner d-none d-sm-block px-0 vh-100"
-      />
+      <div
+        className="col-6 shadow-sm d-none d-sm-flex px-0 vh-100 justify-content-center align-items-center py-5 text-light"
+        style={{
+          backgroundImage: `url(
+            " https://images.unsplash.com/photo-1592514727890-8286ab197060?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=740&q=80"
+          )`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundColor: "rgba(0,0,0,0.5)",
+          backgroundBlendMode: "saturation",
+        }}
+      >
+        <div className="px-5">
+          <h1 className="text-light text-center">
+            Reducing Crimes and Saving Lives
+          </h1>
+          <p className="text-center px-5 text-secondary ">
+            Report any <span className="text-danger">Crime</span> you see to the
+            police. Do not hesitate to do so. A crime reported is a life saved
+          </p>{" "}
+          <Button
+            className="text-center mx-auto d-flex bg-danger border-0 mt-5"
+            onClick={() => navigate("/home")}
+          >
+            Report an Emergency
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

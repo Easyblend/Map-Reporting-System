@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useMapEvent, Marker, Popup } from "react-leaflet";
-import { Icon, popup } from "leaflet";
+import React from "react";
+import { useMapEvent, Marker } from "react-leaflet";
+import { Icon } from "leaflet";
 
 const AddMarker = ({
   setAddmarker,
