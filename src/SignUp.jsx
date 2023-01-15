@@ -6,7 +6,6 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import policeLogog from "./Assets/police_logo.png";
 
 function SignUp() {
   const navigate = useNavigate();

@@ -209,7 +209,7 @@ const Home = () => {
               ""
             )}
           </div>
-          <MapContainer center={center} zoom={14} className="map-container">
+          <MapContainer center={center} zoom={14} className="map-container" >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
             <Marker position={center}>
