@@ -1,5 +1,11 @@
 ## Crime Reporting System
 
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
+![alt text](image-3.png)
+![alt text](image-4.png)
+
 Crime Reporting System is a React web app that allows civilians to easily report crimes happening in their community. The app is designed to be user-friendly, with a simple and intuitive interface that makes it easy for people to submit crime reports quickly and easily.
 
 The app allows users to submit a crime report by entering a description of the crime, the location where it occurred, and any other relevant information. Users can also upload photos or videos of the crime if they have them. Once a report is submitted, it is sent to the appropriate authorities for review and investigation.
